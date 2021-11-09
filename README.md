@@ -1,2 +1,2 @@
 # music-bar
-Bars and restaurants music hub
+Bars and restaurants music hub service backend.

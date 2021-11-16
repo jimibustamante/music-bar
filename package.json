@@ -1,0 +1,27 @@
+{
+  "name": "music-bar-backend",
+  "version": "1.0.0",
+  "description": "Bars and restaurants music hub service backend.",
+  "main": "index.js",
+  "repository": "git@github.com:jimibustamante/music-bar-backend.git",
+  "author": "Jaime Bustamante <jimibustamante@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "nodemon index.js",
+    "migrations:generate": "sequelize-cli migration:generate --name",
+    "migrations:run": "sequelize-cli db:migrate",
+    "migrations:revert": "sequelize-cli db:migrate:undo",
+    "migrations:delete": "sequelize-cli db:migrate:undo:all"
+  },
+  "dependencies": {
+    "babel-register": "^6.26.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.9.0",
+    "sequelize-cli": "^6.3.0"
+  }
+}

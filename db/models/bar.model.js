@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize')
-
+const { USER_TABLE } = require('./../models/user.model')
 const BAR_TABLE = 'bars'
 
 const BarSchema = {
@@ -12,6 +12,18 @@ const BarSchema = {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  adminId: {
+    field: 'admin_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    unique: true,
+    references: {
+      model: USER_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -29,6 +41,11 @@ class Bar extends Model {
       modelName: 'Bar',
       timestamps: false,
     }
+  }
+
+  static associate(models) {
+    this.belongsTo(models.User, { as: 'admin' })
+    this.hasMany(models.Local, { as: 'locals', foreignKey: 'barId' })
   }
 }
 

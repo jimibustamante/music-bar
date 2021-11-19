@@ -1,8 +1,9 @@
 const { Model, DataTypes, Sequelize } = require('sequelize')
+const { BAR_TABLE } = require('./../models/bar.model')
 
-const USER_TABLE = 'users'
+const PLAYLIST_TABLE = 'playlists'
 
-const UserSchema = {
+const PlaylistSchema = {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -13,14 +14,17 @@ const UserSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  email: {
-    type: DataTypes.STRING,
+  barId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
+    field: 'bar_id',
     unique: true,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    references: {
+      model: BAR_TABLE,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -30,15 +34,15 @@ const UserSchema = {
   },
 }
 
-class User extends Model {
+class Playlist extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: USER_TABLE,
-      modelName: 'User',
+      tableName: PLAYLIST_TABLE,
+      modelName: 'Playlist',
       timestamps: false,
     }
   }
 }
 
-module.exports = { User, UserSchema, USER_TABLE }
+module.exports = { Playlist, PlaylistSchema, PLAYLIST_TABLE }

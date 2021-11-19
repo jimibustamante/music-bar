@@ -1,26 +1,38 @@
 const { Model, DataTypes, Sequelize } = require('sequelize')
+const { SONG_TABLE } = require('./song.model')
+const SOURCE_TABLE = 'sources'
 
-const USER_TABLE = 'users'
-
-const UserSchema = {
+const SourceSchema = {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
   },
-  name: {
+  sourceType: {
+    type: DataTypes.STRING,
+    field: 'source_type',
+    allowNull: false,
+  },
+  url: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  email: {
+  sourceName: {
     type: DataTypes.STRING,
+    field: 'source_name',
     allowNull: false,
-    unique: true,
+    defaultValue: 'local',
   },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  songId: {
+    type: DataTypes.INTEGER,
+    field: 'song_id',
+    references: {
+      model: SONG_TABLE,
+      key: 'id',
+    },
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -30,15 +42,15 @@ const UserSchema = {
   },
 }
 
-class User extends Model {
+class Source extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: USER_TABLE,
-      modelName: 'User',
+      tableName: SOURCE_TABLE,
+      modelName: 'Source',
       timestamps: false,
     }
   }
 }
 
-module.exports = { User, UserSchema, USER_TABLE }
+module.exports = { Source, SourceSchema, SOURCE_TABLE }
